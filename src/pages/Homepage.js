@@ -8,9 +8,15 @@ const Homepage = () => {
   let [data, setData] = useState([]);
   let [page, setPage] = useState(1);
   let [currentSearch, setCurrentSearch] = useState("");
+
   const auth = "jkpAcgeLwy48Y98oWcqrHIHR6TFfCs06hVg6hm2oIiU5HKyWMPJDXa28";
   const initialURL = "https://api.pexels.com/v1/curated?page=1&per_page=15";
   const searchURL = `https://api.pexels.com/v1/search?query=${input}&perpage=15&page=1`;
+
+  //第一次渲染時即會執行search
+  useEffect(() => {
+    search(initialURL);
+  }, []);
 
   const search = async (url) => {
     let result = await axios.get(url, {
@@ -21,12 +27,8 @@ const Homepage = () => {
     setCurrentSearch(input);
   };
 
-  //第一次渲染時即會執行search
-  useEffect(() => {
-    search(initialURL);
-  }, []);
-
   const morePicture = async () => {
+    // alert(process.env.MY_KEY);
     let newURL;
     setPage(page + 1);
     if (currentSearch === "") {
